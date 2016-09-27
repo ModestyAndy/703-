@@ -1,1 +1,4 @@
-sceneSetups: []
+sceneSetups:
+- path: Assets/WOW/Scenes/WOWMainScene.unity
+  isLoaded: 1
+  isActive: 1
