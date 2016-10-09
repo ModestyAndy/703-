@@ -65,6 +65,10 @@ public class InitDatabaseScript : MonoBehaviour
         sql = string.Format ("CREATE TABLE IF NOT EXISTS tasks(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, task_name TEXT UNIQUE NOT NULL, task_level INTEGER NOT NULL, task_content TEXT NOT NULL, task_experience INTEGER NOT NULL, task_status INTEGER DEFAULT 0)");
         ObtainLoginData.Instance.sDb.ExecSql (sql);
 
+        // 10. Bag Table
+        sql = string.Format ("CREATE TABLE IF NOT EXISTS bag (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, equip_id INTEGER REFERENCES equipment(id))");
+        ObtainLoginData.Instance.sDb.ExecSql (sql);
+
         #endregion
 
         #region Insert Data
@@ -391,6 +395,7 @@ public class InitDatabaseScript : MonoBehaviour
         ObtainLoginData.Instance.sDb.ExecSql (sql);
 
         sql = string.Format ("INSERT INTO tasks (task_name, task_level, task_content, task_experience) VALUES ('{0}', 1, '{1}', 30)", "解决狼群麻烦", "帮助村民杀死10只恶狼。");
+        ObtainLoginData.Instance.sDb.ExecSql (sql);
 
         #endregion
 
