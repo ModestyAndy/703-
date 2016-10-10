@@ -53,7 +53,7 @@ public class ObtainEquipmentData
             return null; 
         }
 
-        string sql = string.Format("SELECT id, equip_name, part, hp, mp, intelligence, agility, resistance, anger, strength, price FROM equipment WHERE id = {0}", id);
+        string sql = string.Format("SELECT equip_name, part, hp, mp, intelligence, agility, resistance, anger, strength, price FROM equipment WHERE id = {0}", id);
         List<ArrayList> list = sDb.SelectResultSql (sql);
 
         if (list == null || list.Count == 0)
@@ -62,15 +62,15 @@ public class ObtainEquipmentData
         }
         // Change info to Equipment instance
         string name = (string)list[0][0];
-        int part = (int)list[0][1];
-        int hp = (int)list[0][2];
-        int mp = (int)list[0][3];
-        int intelligence = (int)list[0][4];
-        int agility = (int)list[0][4];
-        int resistance = (int)list[0][5];
-        int anger = (int)list[0][6];
-        int strength = (int)list[0][7];
-        int price = (int)list[0][8];
+        int part = int.Parse(list[0][1].ToString());
+        int hp = int.Parse(list[0][2].ToString());
+        int mp = int.Parse(list[0][3].ToString());
+        int intelligence = int.Parse(list[0][4].ToString());
+        int agility = int.Parse(list[0][5].ToString());
+        int resistance = int.Parse(list[0][6].ToString());
+        int anger = int.Parse(list[0][7].ToString());
+        int strength = int.Parse(list[0][8].ToString());
+        int price = int.Parse(list[0][9].ToString());
         Equipment equip = new Equipment(id, name, part, hp, mp, intelligence, agility, resistance, anger, strength, price);
 
         return equip;

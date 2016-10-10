@@ -66,8 +66,11 @@ public class InitDatabaseScript : MonoBehaviour
         ObtainLoginData.Instance.sDb.ExecSql (sql);
 
         // 10. Bag Table
-        sql = string.Format ("CREATE TABLE IF NOT EXISTS bag (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, equip_id INTEGER REFERENCES equipment(id))");
+        sql = string.Format ("CREATE TABLE IF NOT EXISTS bag (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_id INTEGER REFERENCES login(id), position INTEGER NOT NULL, equip_id INTEGER REFERENCES equipment(id))");
         ObtainLoginData.Instance.sDb.ExecSql (sql);
+
+        // 11. NPC Table
+        sql = string.Format ("CREATE TABLE IF NOT EXISTS npc (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL");
 
         #endregion
 
@@ -396,6 +399,13 @@ public class InitDatabaseScript : MonoBehaviour
 
         sql = string.Format ("INSERT INTO tasks (task_name, task_level, task_content, task_experience) VALUES ('{0}', 1, '{1}', 30)", "解决狼群麻烦", "帮助村民杀死10只恶狼。");
         ObtainLoginData.Instance.sDb.ExecSql (sql);
+
+        #endregion
+
+        #region Insert npc Table
+
+        //sql = string.Format ("INSERT INTO npc SET (name) VALUES ('{0}'", "村长");
+        //ObtainLoginData.Instance.sDb.ExecSql (sql);
 
         #endregion
 

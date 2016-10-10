@@ -120,6 +120,25 @@ public class ObtainLoginData
         }
     }
 
+    /// <summary>
+    /// Obtain the current player's user id.
+    /// </summary>
+    /// <param name="name">user name</param>
+    /// <returns>user id</returns>
+    public int GetUserId(string name)
+    {
+        string sql = string.Format("SELECT id FROM login WHERE name = '{0}'", name);
+        object obj = sDb.SelectFieldSql (sql);
+        if (obj == null)
+        {
+            return -1;
+        }
+        else
+        {
+            return (int)obj;
+        }
+    }
+
     #endregion
 
 }
