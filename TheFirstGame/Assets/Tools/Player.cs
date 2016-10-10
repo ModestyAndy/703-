@@ -10,7 +10,8 @@ public class Player
 {
     #region Property
     // TODO: ID's set need private;
-    public int UserId { get; set; } 
+    public int UserId { get; set; }
+    public string Name { get; set; }
     public int ProfessionId { get; set; }
     public int Level { get; set; }
     public float Experience { get; set; }
@@ -21,6 +22,7 @@ public class Player
     public int Resistance { get; set; }
     public int Anger { get; set; }
     public int Strength { get; set; }
+    public int Coin { get; set; }
     public Equipment Equip1 { get; set; }
     public Equipment Equip2 { get; set; }
     public Equipment Equip3 { get; set; }

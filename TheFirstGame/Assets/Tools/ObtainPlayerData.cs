@@ -48,6 +48,7 @@ public class ObtainPlayerData
         // Tmp data for test.
         tmpPlayer = new Player();
         tmpPlayer.UserId = userId;
+        tmpPlayer.Name = "雅瑟娜";
         tmpPlayer.ProfessionId = 1; // Sor
         tmpPlayer.Level = 1;
         tmpPlayer.Experience = 0;
@@ -58,6 +59,7 @@ public class ObtainPlayerData
         tmpPlayer.Resistance = 50;
         tmpPlayer.Anger = 0;
         tmpPlayer.Strength = 0;
+        tmpPlayer.Coin = 100;
         Equipment E1 = ObtainEquipmentData.Instance.GetEquipmentInfo(5);
         tmpPlayer.Equip1 = E1;
         tmpPlayer.Equip2 = null;
