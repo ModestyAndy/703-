@@ -18,12 +18,19 @@ public class CameraMoveScript : MonoBehaviour
 
     void Update()
     {
+        transform.forward = Vector3.forward;
         target = new Vector3 (player.position.x, player.position.y + height, player.position.z - distance);
         MoveToTarget (target);
+        transform.LookAt (player);
     }
 
     private void MoveToTarget(Vector3 target)
     {
         transform.position = target;
+    }
+
+    private void RotateCamera()
+    {
+
     }
 }

@@ -6,96 +6,139 @@
 using UnityEngine;
 using System.Collections;
 
-public class EnemyMoveScript : MonoBehaviour {
-	/// <summary>
-	/// 攻击的间隔
-	/// </summary>
-	private float attack_Timer = 2f;
-	private Vector3 burnPos;
+public class EnemyMoveScript : MonoBehaviour
+{
 
-	private Vector3 targetPos;
+    #region Field
 
-	//private Vector3 findPlayerPos;
+    /// <summary>
+    /// 攻击的间隔
+    /// </summary>
+    private float attack_Timer = 2f;
+    private Vector3 burnPos;
 
-	private NavMeshAgent m_nav;
+    private Vector3 targetPos;
 
-	private float timer;
-	private float waitTime = 2f;
+    private NavMeshAgent m_nav;
 
-	private bool isPlayerIn = false;
-	private bool findPlayer = false;
-	private float maxPursueDistanse = 15f;
-	private Animator ani;
-	private GameObject player;
+    private float timer;
+    private float waitTime = 2f;
 
+    private bool isPlayerIn = false;
+    private bool findPlayer = false;
+    private float maxPursueDistanse = 15f;
+    private Animator ani;
+    private GameObject player;
 
-	void Awake () {
-		m_nav = GetComponent<NavMeshAgent> ();
-		ani = GetComponent<Animator> ();
-		burnPos = transform.position;
-		targetPos = GenerateTarget (burnPos);
-		MoveToTarget (targetPos);
-	}
+    private bool isAttak = false;
 
-	void Update () {
-		if (!findPlayer) {
-			MoveToTarget (targetPos);
-		}
+    #endregion
 
-		if (player != null) {
-			PursuePlayer (player.transform.position);
-		}
+    void Awake ()
+    {
+        m_nav = GetComponent<NavMeshAgent> ();
+        ani = GetComponent<Animator> ();
+        burnPos = transform.position;
+        targetPos = GenerateTarget (burnPos);
+        MoveToTarget (targetPos);
+    }
 
-		if (!isPlayerIn && Vector3.Distance (transform.position, burnPos) > maxPursueDistanse) {
-			findPlayer = false;
-			player = null;
-		}
-	}
+    void Update ()
+    {
+        if (!findPlayer)
+        {
+            MoveToTarget (targetPos);
+        }
 
-	void OnTriggerEnter (Collider other) {
-		if (other.tag.Equals ("Player")) {
-			if (player != null) {
-				return;
-			}
-			//findPlayerPos = transform.position;
-			//isBacking = false;
+        if (player != null)
+        {
+            PursuePlayer (player.transform.position);
+        }
 
-			player = other.gameObject;
-			isPlayerIn = true;
-			findPlayer = true;
-			PursuePlayer (other.transform.position);
-		}
-	}
+        if (player != null && isAttak)
+        {
+            Attack (player.transform.position);
+        }
 
-	void OnTriggerExit (Collider other) {
-		isPlayerIn = false;
-	}
+        if (!isPlayerIn && Vector3.Distance (transform.position, burnPos) > maxPursueDistanse)
+        {
+            findPlayer = false;
+            player = null;
+        }
+    }
 
-	private Vector3 GenerateTarget (Vector3 partrolCenter) {
-		return new Vector3 (partrolCenter.x + Random.Range (-5, 5), partrolCenter.y, partrolCenter.z + Random.Range (-5, 5));
+    void OnTriggerEnter (Collider other)
+    {
+        if (other.tag.Equals ("Player"))
+        {
+            if (player != null)
+            {
+                return;
+            }
 
-	}
+            player = other.gameObject;
+            isPlayerIn = true;
+            findPlayer = true;
+            PursuePlayer (other.transform.position);
+        }
+    }
 
-	private void MoveToTarget (Vector3 target) {
-		m_nav.SetDestination (targetPos);
-		ani.SetBool (HashIDs.Run, true);
-		if (Vector3.Distance (transform.position, target) < 0.5f) {
-			timer += Time.deltaTime;
-			ani.SetBool (HashIDs.Run, false);
-			if (timer > waitTime) {
-				timer = 0;
-				targetPos = GenerateTarget (burnPos);
-			}
-		}
-	}
+    void OnTriggerExit (Collider other)
+    {
+        isPlayerIn = false;
+    }
 
-	private void PursuePlayer (Vector3 player) {
-		m_nav.SetDestination (player);
-		ani.SetBool (HashIDs.Run, true);
-		if (Vector3.Distance (transform.position, player) < 1f) {
-			m_nav.Stop ();
-			ani.SetBool (HashIDs.Run, false);
-			ani.SetTrigger (HashIDs.Attack);
-		}
-	}
+    private Vector3 GenerateTarget (Vector3 partrolCenter)
+    {
+        return new Vector3 (partrolCenter.x + Random.Range (-5, 5), partrolCenter.y, partrolCenter.z + Random.Range (-5, 5));
+
+    }
+
+    private void MoveToTarget (Vector3 target)
+    {
+        m_nav.Resume ();
+        m_nav.SetDestination (targetPos);
+        ani.SetBool (HashIDs.Run, true);
+        if (Vector3.Distance (transform.position, target) < 0.5f)
+        {
+            timer += Time.deltaTime;
+            ani.SetBool (HashIDs.Run, false);
+            if (timer > waitTime)
+            {
+                timer = 0;
+                targetPos = GenerateTarget (burnPos);
+            }
+        }
+    }
+
+    private void PursuePlayer (Vector3 player)
+    {
+        m_nav.SetDestination (player);
+        ani.SetBool (HashIDs.Run, true);
+        if (Vector3.Distance (transform.position, player) < 2.5f)
+        {
+            m_nav.Stop ();
+            ani.SetBool (HashIDs.Run, false);
+            isAttak = true;
+            //ani.SetTrigger (HashIDs.Attack);
+        }
+    }
+
+    private void Attack (Vector3 player)
+    {
+        timer += Time.deltaTime;
+        if (timer > attack_Timer)
+        {
+            timer = 0;
+            ani.SetTrigger (HashIDs.Attack);
+            Debug.Log ("Atatck");
+        }
+
+        if (Vector3.Distance (transform.position, player) > 2.5f)
+        {
+            m_nav.Resume ();
+            isAttak = false;
+        }
+
+    }
 }
