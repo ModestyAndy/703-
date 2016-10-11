@@ -33,11 +33,11 @@ public class UIMoveScript : MonoBehaviour
 
 	public void OnClickAppear (GameObject obj)
 	{
-		obj.SetActive (true); 
+		obj.SetActive (true);
 	}
 
 	public void OnClickDisappear (GameObject obj)
 	{
-		obj.SetActive (false); 
+		obj.SetActive (false);
 	}
 }
